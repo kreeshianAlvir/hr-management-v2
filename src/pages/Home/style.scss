@@ -153,6 +153,15 @@
 
     .calendar-section {
       flex-grow: 1;
+
+      .calendar {
+        display: flex;
+        flex-wrap: wrap;
+
+        div {
+          flex-grow: 1;
+        }
+      }
     }
   }
 }

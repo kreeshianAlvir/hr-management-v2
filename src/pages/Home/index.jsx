@@ -1,6 +1,16 @@
+import { useState, useEffect } from "react";
+
+import moment from "moment";
 import "./style.scss";
 
 export const Home = () => {
+  const currentMonthDays = new Array(moment().endOf("month").get("D")).fill();
+
+  useEffect(() => {
+    console.info(moment().startOf("month").get("D"));
+    console.info(moment().endOf("month").get("D"));
+  }, []);
+
   return (
     <div className="home">
       <div className="section upper-section">
@@ -56,7 +66,14 @@ export const Home = () => {
             ))}
           </ul>
         </div>
-        <div className="section calendar-section">calendar</div>
+        <div className="section calendar-section">
+          calendar
+          <div className="calendar">
+            {currentMonthDays.map((item, key) => (
+              <div key={key}>{key + 1}</div>
+            ))}
+          </div>
+        </div>
       </div>
     </div>
   );
