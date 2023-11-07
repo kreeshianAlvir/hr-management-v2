@@ -1,15 +1,88 @@
 import { useState, useEffect } from "react";
-
 import moment from "moment";
 import "./style.scss";
 
+const days = [
+  "Sunday",
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+];
 export const Home = () => {
-  const currentMonthDays = new Array(moment().endOf("month").get("D")).fill();
+  const [currentMonthYear, setCurrentMonthYear] = useState({
+    month: moment().get("month"),
+    year: moment().get("year"),
+  });
+  const [monthCalendar, setMonthCalendar] = useState([]);
 
   useEffect(() => {
-    console.info(moment().startOf("month").get("D"));
-    console.info(moment().endOf("month").get("D"));
-  }, []);
+    const startWeekDay = moment()
+      .set(currentMonthYear)
+      .startOf("month")
+      .get("day");
+    const lastMonthDay = moment().set(currentMonthYear).endOf("month").get("D");
+    const arr = [];
+
+    // loop for the weeks
+    let currentDay = 1;
+    for (let i = 0; i < 6; i++) {
+      const week = [];
+      // loop for the days
+      for (let n = 0; n < 7; n++) {
+        let day = currentDay;
+        if (day <= lastMonthDay) {
+          if (i === 0) {
+            if (n < startWeekDay) {
+              day = "";
+            } else {
+              currentDay++;
+            }
+          } else {
+            currentDay++;
+          }
+        } else {
+          day = "";
+        }
+
+        week.push(day);
+      }
+      arr.push(week);
+    }
+
+    setMonthCalendar(arr);
+  }, [currentMonthYear]);
+
+  const handleNavigateCalendar = (dir) => {
+    switch (dir) {
+      case "previous-year":
+        setCurrentMonthYear({
+          ...currentMonthYear,
+          year: currentMonthYear.year - 1,
+        });
+        break;
+      case "next-year":
+        setCurrentMonthYear({
+          ...currentMonthYear,
+          year: currentMonthYear.year + 1,
+        });
+        break;
+      case "previous-month":
+        setCurrentMonthYear({
+          ...currentMonthYear,
+          month: currentMonthYear.month - 1,
+        });
+        break;
+      case "next-month":
+        setCurrentMonthYear({
+          ...currentMonthYear,
+          month: currentMonthYear.month + 1,
+        });
+        break;
+    }
+  };
 
   return (
     <div className="home">
@@ -67,12 +140,53 @@ export const Home = () => {
           </ul>
         </div>
         <div className="section calendar-section">
-          calendar
-          <div className="calendar">
-            {currentMonthDays.map((item, key) => (
-              <div key={key}>{key + 1}</div>
-            ))}
+          <div className="calendar-header">
+            <h3>{`${moment()
+              .set(currentMonthYear)
+              .format("MMMM YYYY")} Events`}</h3>
+            <div className="calendar-navigation">
+              <button
+                onClick={() => handleNavigateCalendar("previous-year")}
+              >{`<<`}</button>
+              <button
+                onClick={() => handleNavigateCalendar("previous-month")}
+              >{`<`}</button>
+              <button
+                onClick={() => handleNavigateCalendar("next-month")}
+              >{`>`}</button>
+              <button
+                onClick={() => handleNavigateCalendar("next-year")}
+              >{`>>`}</button>
+            </div>
           </div>
+          <table className="calendar">
+            <thead>
+              <tr>
+                {days.map((item) => (
+                  <th key={item}>{item.substring(0, 3)}</th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              {monthCalendar.map((item, key) => (
+                <tr key={key} className="weeks">
+                  {item.map((n, k) => (
+                    <td key={`day-${k}`} className="days">
+                      {n !== "" && (
+                        <>
+                          <p>{n}</p>
+                          <div className="day-events">
+                            <div className="event">event</div>
+                            <div className="event">event</div>
+                          </div>
+                        </>
+                      )}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
       </div>
     </div>
