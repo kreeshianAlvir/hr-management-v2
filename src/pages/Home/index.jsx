@@ -123,7 +123,6 @@ export const Home = () => {
           <ul className="news-list">
             {new Array(10).fill().map((item, key) => (
               <li key={key}>
-                <div className="news-img"></div>
                 <div className="news-desc">
                   <p className="title">{`News ${key}`}</p>
                   <p className="date">01/01/2023</p>
@@ -171,7 +170,12 @@ export const Home = () => {
               {monthCalendar.map((item, key) => (
                 <tr key={key} className="weeks">
                   {item.map((n, k) => (
-                    <td key={`day-${k}`} className="days">
+                    <td
+                      key={`day-${k}`}
+                      className={`days ${
+                        n === moment().get("date") ? "today" : ""
+                      }`}
+                    >
                       {n !== "" && (
                         <>
                           <p>{n}</p>
