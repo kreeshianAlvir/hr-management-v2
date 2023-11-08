@@ -1,0 +1,27 @@
+@media only screen and (min-width: 500px) and (max-width: 720px) {
+  .home {
+    .upper-section {
+      flex-direction: column;
+      gap: 10px;
+
+      .details {
+        flex-direction: column;
+        p {
+          text-align: center !important;
+        }
+      }
+    }
+
+    .middle-section {
+      .tile-cont {
+        flex-direction: column;
+      }
+    }
+
+    .lower-section {
+      .news-section {
+        width: 100% !important;
+      }
+    }
+  }
+}
