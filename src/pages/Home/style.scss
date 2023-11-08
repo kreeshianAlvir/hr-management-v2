@@ -115,8 +115,7 @@
         margin: 0px;
         padding: 0px;
         list-style-type: none;
-        max-height: 500px;
-        // max-height: inherit;
+        max-height: 646px;
         overflow: auto;
 
         li {
@@ -133,7 +132,7 @@
             background-color: rgb(2, 134, 187);
           }
           .news-desc {
-            width: 50%;
+            // width: 50%;
             p {
               margin: 0;
 
@@ -227,6 +226,10 @@
                 border-radius: 4px;
                 user-select: none;
               }
+            }
+
+            &.today {
+              background-color: #d7d7d7;
             }
           }
 
